@@ -14,7 +14,7 @@ public class IndexVisitor extends MethodVisitor {
     private int line;
 
     public IndexVisitor(Element method, MethodVisitor classVisitor) {
-        super(Opcodes.ASM8, classVisitor);
+        super(Opcodes.ASM6, classVisitor);
         this.method = method;
     }
 

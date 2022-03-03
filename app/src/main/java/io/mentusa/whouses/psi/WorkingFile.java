@@ -30,7 +30,7 @@ public class WorkingFile {
         try (InputStream jis = jar.getInputStream(entry)){
             if (name.endsWith(".class")) {
                 ClassReader reader = new ClassReader(jis);
-                reader.accept(new ClassVisitor(Opcodes.ASM8) {
+                reader.accept(new ClassVisitor(Opcodes.ASM6) {
                     private String className;
 
                     @Override
