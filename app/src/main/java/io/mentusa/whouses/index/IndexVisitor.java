@@ -26,7 +26,8 @@ public class IndexVisitor extends MethodVisitor {
 
     @Override
     public void visitFieldInsn(int opcode, String owner, String name, String descriptor) {
-        method.access(ElementRepository.INSTANCE.ensureRegistered(new Element(owner, ElementType.FIELD, name)).getId(), AccessType.ACCESS_FILED, line);
+        Element field = ElementRepository.INSTANCE.ensureRegistered(new Element(owner, ElementType.FIELD, name));
+        field.access(method.getId(), AccessType.ACCESS_FIELD, line);
         super.visitFieldInsn(opcode, owner, name, descriptor);
     }
 
@@ -35,7 +36,8 @@ public class IndexVisitor extends MethodVisitor {
                                 boolean isInterface) {
         String fullName = name + descriptor.substring(0, descriptor.indexOf(')') + 1);
         Element method = ElementRepository.INSTANCE.ensureRegistered(new Element(owner, ElementType.METHOD, fullName));
-        this.method.access(method.getId(), AccessType.INVOKE, line);
+        System.out.println(method.displayName());
+        method.access(this.method.getId(), AccessType.INVOKE, line);
     }
 
     @Override

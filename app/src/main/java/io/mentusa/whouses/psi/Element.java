@@ -22,14 +22,8 @@ public class Element {
         access.add(new Access(id, accessor, type, line));
     }
 
-    public String identifier() {
-        switch (elementType) {
-            case METHOD:
-                return className + "*" + name;
-            case FIELD:
-                return className + "#" + name;
-            default:
-                throw new IllegalStateException();
-        }
+    public String displayName() {
+        String formattedClassName = className.replace('/', '.');
+        return formattedClassName + '.' + name;
     }
 }
