@@ -34,10 +34,18 @@ public class IndexVisitor extends MethodVisitor {
     @Override
     public void visitMethodInsn(int opcode, String owner, String name, String descriptor,
                                 boolean isInterface) {
-        String fullName = name + descriptor.substring(0, descriptor.indexOf(')') + 1);
+        String fullName = name + Element.formatMethodArguments(descriptor);
         Element method = ElementRepository.INSTANCE.ensureRegistered(new Element(owner, ElementType.METHOD, fullName));
-        System.out.println(method.displayName());
         method.access(this.method.getId(), AccessType.INVOKE, line);
+    }
+
+    @Override
+    public void visitLdcInsn(Object value) {
+        if (value instanceof String) {
+            Element string = ElementRepository.INSTANCE.ensureRegistered(new Element(null, ElementType.STRING, value.toString()));
+            string.access(method.getId(), AccessType.LDC, line);
+        }
+        super.visitLdcInsn(value);
     }
 
     @Override

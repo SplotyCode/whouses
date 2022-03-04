@@ -58,3 +58,6 @@
   position: absolute;
   width: 1px;
 }
+.card-custom {
+    max-width: 140px;
+}

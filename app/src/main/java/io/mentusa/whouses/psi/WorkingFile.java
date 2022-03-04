@@ -50,7 +50,7 @@ public class WorkingFile {
                     @Override
                     public MethodVisitor visitMethod(int access, String name, String descriptor,
                                                      String signature, String[] exceptions) {
-                        String fullName = name + descriptor.substring(0, descriptor.indexOf(')') + 1);
+                        String fullName = name + Element.formatMethodArguments(descriptor);
                         Element method = ElementRepository.INSTANCE.ensureRegistered(new Element(className, ElementType.METHOD, fullName));
                         return new IndexVisitor(method, super.visitMethod(access, name, descriptor, signature, exceptions));
                     }

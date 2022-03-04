@@ -14,7 +14,7 @@ public class ElementRepository {
     private final Map<Long, Element> byId = new HashMap<>();
 
     public Element ensureRegistered(Element element) {
-        return elements.computeIfAbsent(element.displayName(), identifier -> {
+        return elements.computeIfAbsent(element.identifierName(), identifier -> {
             long longId = id++;
             element.setId(longId);
             byId.put(longId, element);

@@ -7,10 +7,25 @@ import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.text.StringEscapeUtils;
+import org.objectweb.asm.Type;
 
 @Getter
 @RequiredArgsConstructor
 public class Element {
+    public static String formatMethodArguments(String method) {
+        Type[] types = Type.getArgumentTypes(method);
+        if (types.length == 0) {
+            return "()";
+        }
+        StringBuilder name = new StringBuilder("(");
+        name.append(types[0].getClassName());
+        for (int i = 1; i < types.length; i++) {
+            name.append(", ").append(types[i].getClassName());
+        }
+        return name.append(')').toString();
+    }
+
     @Setter
     private long id;
     private final String className;
@@ -23,6 +38,17 @@ public class Element {
     }
 
     public String displayName() {
+        if (elementType == ElementType.STRING) {
+            return identifierName();
+        }
+        String formattedClassName = FormatTool.formatClassName(className.replace('/', '.'));
+        return formattedClassName + '.' + name;
+    }
+
+    public String identifierName() {
+        if (elementType == ElementType.STRING) {
+            return "\"" + StringEscapeUtils.escapeJava(name) + "\"";
+        }
         String formattedClassName = className.replace('/', '.');
         return formattedClassName + '.' + name;
     }

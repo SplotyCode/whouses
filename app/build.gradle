@@ -38,6 +38,7 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.22'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'org.apache.commons', name: 'commons-text', version: '1.9'
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.16.Final'
 }
 
