@@ -3,19 +3,33 @@ package io.mentusa.whouses.access;
 import io.mentusa.whouses.psi.Element;
 import io.mentusa.whouses.psi.ElementRepository;
 import io.mentusa.whouses.psi.ElementType;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @ToString
-@RequiredArgsConstructor
+@Embeddable
+@NoArgsConstructor
+@EqualsAndHashCode
+@AllArgsConstructor
 public class Access {
-    private final long accessed;
-    private final long accessor;
+    @Column(insertable= false, updatable = false)
+    private long accessed;
+    @Column
+    private long accessor;
+    @Column
     @Getter
-    private final AccessType type;
+    private AccessType type;
     @Getter
-    private final int line;
+    @Column
+    private int line;
 
     @Getter
     @RequiredArgsConstructor

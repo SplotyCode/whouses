@@ -1,7 +1,7 @@
 package io.mentusa.whouses.psi;
 
 public class FormatTool {
-    private static final int targetLength = 15;
+    private static final int targetLength = 35;
 
     public static String formatClassName(String fqClassName) {
         int inLen = fqClassName.length();

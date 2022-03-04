@@ -4,13 +4,15 @@ import io.mentusa.whouses.access.Access;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class ElementRepository {
     public static long id;
     public static final ElementRepository INSTANCE = new ElementRepository();
 
-    private final Map<String, Element> elements = new HashMap<>();
+    private final Map<String, Element> elements = new ConcurrentHashMap<>();
     private final Map<Long, Element> byId = new HashMap<>();
 
     public Element ensureRegistered(Element element) {
@@ -22,7 +24,7 @@ public class ElementRepository {
         });
     }
 
-    public List<Access> whoUses(String input) {
+    public Set<Access> whoUses(String input) {
         Element element = elements.get(input);
         return element == null ? null : element.getAccess();
     }
@@ -32,6 +34,13 @@ public class ElementRepository {
     }
 
     public List<String> startsWith(String input) {
-        return elements.keySet().stream().filter(s -> s.startsWith(input)).collect(Collectors.toList());
+        return elements.keySet().stream()
+            .filter(s -> s.startsWith(input))
+            .limit(20)
+            .collect(Collectors.toList());
+    }
+
+    public void export(ElementRepo elementRepo) {
+        elementRepo.saveAll(elements.values());
     }
 }
