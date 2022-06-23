@@ -22,6 +22,7 @@ public class CommandLine implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println(Runtime.getRuntime().maxMemory());
         switch (args[0].toLowerCase(Locale.ROOT)) {
             case "index":
                 fileSearch.searchJars(new File(args[1]).toPath());

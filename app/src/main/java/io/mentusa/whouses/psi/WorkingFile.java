@@ -18,10 +18,20 @@ public class WorkingFile {
     private final JarFile jar;
 
     public WorkingFile(File file) throws IOException {
+        System.out.println("Working on " + file);
         jar = new JarFile(file);
         Stream<JarEntry> str = jar.stream();
         str.forEach(this::readClass);
         jar.close();
+    }
+
+    private ClassReader createReader(String name, InputStream stream) {
+        try {
+            return new ClassReader(stream);
+        } catch (IOException | IllegalArgumentException e) {
+            System.out.println("failed to read class: " + name + " " + e.getMessage());
+            return null;
+        }
     }
 
     @SneakyThrows
@@ -29,7 +39,10 @@ public class WorkingFile {
         String name = entry.getName();
         try (InputStream jis = jar.getInputStream(entry)){
             if (name.endsWith(".class")) {
-                ClassReader reader = new ClassReader(jis);
+                ClassReader reader = createReader(name, jis);
+                if (reader == null) {
+                    return;
+                }
                 reader.accept(new ClassVisitor(Opcodes.ASM7) {
                     private String className;
 
