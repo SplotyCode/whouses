@@ -47,11 +47,18 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.6.4'
     implementation group: 'com.github.gwenn', name: 'sqlite-dialect', version: '0.1.2'
 }
-
+java {
+    toolchain {
+        // automatically download a jdk for the build if not available
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
 bootRun {
     jvmArgs = ["-DXmx4G", "-Xmx4G"]
 }
-
+tasks.named('bootJar') {
+    launchScript()
+}
 application {
     mainClass = 'io.mentusa.whouses.App'
 }

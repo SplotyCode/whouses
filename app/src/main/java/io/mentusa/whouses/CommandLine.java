@@ -22,6 +22,9 @@ public class CommandLine implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        if (args.length == 0) {
+            return;
+        }
         System.out.println(Runtime.getRuntime().maxMemory());
         switch (args[0].toLowerCase(Locale.ROOT)) {
             case "index":
